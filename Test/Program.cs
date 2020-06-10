@@ -26,9 +26,9 @@ namespace MarsProject2
         public void NavigateToShareSkill()
         {
             Profile profileObj = new Profile();
-            profileObj.ShareSkillClick();
+            profileObj.ClickOnShareSkill();
             ShareSkill shareSkillObj = new ShareSkill();
-            Assert.AreEqual(Base.expectedShareSkillUrl, shareSkillObj.ShareSkillUrl());
+            Assert.AreEqual(Base.expectedShareSkillUrl, shareSkillObj.GetShareSkillUrl());
 
         }
 
@@ -40,7 +40,7 @@ namespace MarsProject2
             shareSkillObj.AddShareSkillDetails();
             //Assert.AreEqual("Service Listing Added sucessfully", shareskillObj.GetPopUp());                ;
             ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(shareSkillObj.excelTitle(), manageListingsObj.GetTitle());
+            Assert.AreEqual(shareSkillObj.GetExcelTitle(), manageListingsObj.GetTitle());
 
         }
 
@@ -53,9 +53,9 @@ namespace MarsProject2
         public void NavigateToManageListings()
         {
             Profile profileObj = new Profile();
-            profileObj.ManageListingsClick();
+            profileObj.ClickOnManageListings();
             ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.ManageListingsUrl());
+            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.GetManageListingsUrl());
 
         }
 
@@ -69,7 +69,7 @@ namespace MarsProject2
             shareSkillObj.PopulateShareSkillUpdateData();
             shareSkillObj.AddShareSkillDetails();
 
-            Assert.AreEqual(shareSkillObj.excelTitle(), manageListingsObj.GetTitle());
+            Assert.AreEqual(shareSkillObj.GetExcelTitle(), manageListingsObj.GetTitle());
 
         }
 
@@ -82,9 +82,9 @@ namespace MarsProject2
         public void NavigateToManageListings()
         {
             Profile profileObj = new Profile();
-            profileObj.ManageListingsClick();
+            profileObj.ClickOnManageListings();
             ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.ManageListingsUrl());
+            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.GetManageListingsUrl());
 
         }
 
@@ -93,7 +93,7 @@ namespace MarsProject2
         {
             ManageListings manageListingsObj = new ManageListings();
             manageListingsObj.DeleteServiceListings();
-            Assert.AreEqual((manageListingsObj.deleteTitleMsg + " has been deleted"), manageListingsObj.DeletePopUpMsg());
+            Assert.AreEqual((manageListingsObj.deleteTitleMsg + " has been deleted"), manageListingsObj.GetPopUpMsg());
 
         }
     }

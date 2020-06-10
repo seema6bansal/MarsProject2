@@ -14,13 +14,29 @@ namespace MarsProject2.Pages
 {
     class ManageListings
     {
+        public ManageListings()
+        {
+            PageFactory.InitElements(GlobalDefinitions.driver, this);
+        }
+
+        //Initialize WebElements by using Page Factory
+
+        //Find the ManageListingTitle
+        [FindsBy(How = How.XPath, Using = "//table/tbody/tr[1]/td[3]")]
+        private IWebElement ManageListingTitle { get; set; }
+
+        //Find the PopUp
+        [FindsBy(How = How.XPath, Using = "//div[@class='ns-box-inner']")]
+        private IWebElement PopUpMessage { get; set; }
+
         public string deleteTitleMsg;
+
 
         //Get Title of the row on the ManageListing Page
         public string GetTitle()
         {
-            return (GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//table/tbody/tr[1]/td[3]")), 15)).Text;
-
+            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ManageListingTitle), 15);
+            return ManageListingTitle.Text;
         }
 
         //Update Service Listing on the Manage Listings Page
@@ -79,15 +95,15 @@ namespace MarsProject2.Pages
         }
 
 
-        //Find out Popup Message
-        public string DeletePopUpMsg()
+        //Find out Popup Message for Delete
+        public string GetPopUpMsg()
         {
-            return (GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//div[@class='ns-box-inner']")), 30)).Text;
-
+            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(PopUpMessage), 30);
+            return PopUpMessage.Text;
         }
 
         //Get Manage Listings Url
-        public string ManageListingsUrl()
+        public string GetManageListingsUrl()
         {
             GlobalDefinitions.WaitForUrl(GlobalDefinitions.driver, Base.expectedManageListingsUrl, 10);
             return (GlobalDefinitions.driver.Url);

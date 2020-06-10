@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
@@ -17,19 +18,44 @@ namespace MarsProject2.Global
         //Initialize the browser
         public static IWebDriver driver { get; set; }
 
+        public static WebDriverWait wait;
+
+        //Func delegate to check if element is visible by passing WebElement                     
+        public static Func<IWebDriver, bool> ElementIsVisible(IWebElement element)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    return element.Displayed;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            };
+
+        }
+        //Explicit wait for element by using Func delegate       
+        public static bool WaitForElementIsVisible(IWebDriver driver, Func<IWebDriver, bool> ElementIsVisible, int timeOutinSeconds)
+        {
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
+            return wait.Until(ElementIsVisible);
+
+        }
+
         //Explicit Wait for Element
         public static IWebElement WaitForElement(IWebDriver driver, By by, int timeOutinSeconds)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
             IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(by));
             return element;
 
         }
-
         //Explicit Wait for List of Elements
         public static IList<IWebElement> WaitForListOfElements(IWebDriver driver, By by, int timeOutinSeconds)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
             IList<IWebElement> listOfElements = wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
             return listOfElements;
 
@@ -38,10 +64,11 @@ namespace MarsProject2.Global
         //Explicit Wait for Url
         public static void WaitForUrl(IWebDriver driver, string url, int timeOutinSeconds)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
+            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
             wait.Until(ExpectedConditions.UrlToBe(url));
 
         }
+
 
         //Excel
         public class ExcelLib
@@ -60,7 +87,7 @@ namespace MarsProject2.Global
                 dataCol.Clear();
             }
 
-            private static DataTable ExcelToDataTable(string fileName, string sheetName)
+            private static DataTable ReadExcelToDataTable(string fileName, string sheetName)
             {
                 //Open the file and return as stream
                 using (System.IO.FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.Read))
@@ -91,7 +118,7 @@ namespace MarsProject2.Global
             public static void PopulateInCollection(string fileName, string sheetName)
             {
                 ExcelLib.ClearData();
-                DataTable table = ExcelToDataTable(fileName, sheetName);
+                DataTable table = ReadExcelToDataTable(fileName, sheetName);
 
                 //Iterate through the rows and columns of the Table
                 for (int row = 1; row <= table.Rows.Count; row++)

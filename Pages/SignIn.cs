@@ -21,28 +21,28 @@ namespace MarsProject2.Pages
 
         //Find the SignIn Link 
         [FindsBy(How = How.XPath, Using = "//a[@class='item' and text()='Sign In']")]
-        private IWebElement signInButton { get; set; }
+        private IWebElement SignInButton { get; set; }
 
         //Find the Email Textbox
         [FindsBy(How = How.XPath, Using = "//input[@name='email']")]
-        private IWebElement emailTextBox { get; set; }
+        private IWebElement EmailTextBox { get; set; }
 
         //Find Password Textbox
         [FindsBy(How = How.XPath, Using = "//input[@name='password']")]
-        private IWebElement passwordTextBox { get; set; }
+        private IWebElement PasswordTextBox { get; set; }
 
         //Find Login button
         [FindsBy(How = How.XPath, Using = "//button[ text()='Login']")]
-        private IWebElement loginButton { get; set; }
+        private IWebElement LoginButton { get; set; }
 
 
         //Login to SkillSwap Website
         public void LoginStep()
         {
-            signInButton.Click();
-            emailTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"));
-            passwordTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
-            loginButton.Click();
+            SignInButton.Click();
+            EmailTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"));
+            PasswordTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
+            LoginButton.Click();
 
         }
     }

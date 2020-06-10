@@ -4,6 +4,7 @@ using MarsProject2.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,7 @@ namespace MarsProject2.Global
         }
 
         [OneTimeSetUp]
-        public void TestSetUp()
+        public void SetUp()
         {
             //Initialize the Extent Report
             InitializeReport();
@@ -46,7 +47,7 @@ namespace MarsProject2.Global
             //Define driver
             GlobalDefinitions.driver = new ChromeDriver();
             GlobalDefinitions.driver.Manage().Window.Maximize();
-
+            
             //Get Base Url from Excel
             GlobalDefinitions.driver.Navigate().GoToUrl(GlobalDefinitions.ExcelLib.ReadData(2, "Url"));
 
@@ -82,7 +83,7 @@ namespace MarsProject2.Global
         }
 
         [OneTimeTearDown]
-        public void TestTearDown()
+        public void TearDown()
         {
             //Close all the Browsers open by Selenium
             GlobalDefinitions.driver.Quit();

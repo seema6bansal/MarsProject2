@@ -21,25 +21,25 @@ namespace MarsProject2.Pages
 
         //Find the ShareSkill Link 
         [FindsBy(How = How.XPath, Using = "//a[@href ='/Home/ServiceListing']")]
-        private IWebElement shareSkillLink { get; set; }
+        private IWebElement ShareSkillLink { get; set; }
 
         //Find the ManageListings Link 
         [FindsBy(How = How.XPath, Using = "//a[@href ='/Home/ListingManagement']")]
-        private IWebElement manageListingsLink { get; set; }
+        private IWebElement ManageListingsLink { get; set; }
 
 
         //Click on ShareSkill tab to navigate to the ShareSkill page
-        public void ShareSkillClick()
+        public void ClickOnShareSkill()
         {
-            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//a[@href ='/Home/ServiceListing']")), 15);
-            shareSkillLink.Click();
+            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ShareSkillLink), 15);
+            ShareSkillLink.Click();
         }
 
         //Click on ManageListings tab to navigate to the ManageListings page
-        public void ManageListingsClick()
+        public void ClickOnManageListings()
         {
-            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//a[@href ='/Home/ListingManagement']")), 15);
-            manageListingsLink.Click();
+            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ManageListingsLink), 15);
+            ManageListingsLink.Click();
         }
 
 
