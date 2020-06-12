@@ -39,7 +39,7 @@ namespace MarsProject2.Pages
         //Get Title of the row on the ManageListing Page
         public string GetTitle()
         {
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ManageListingTitle));
+            driver.WaitForElementIsVisible(ManageListingTitle);
             return ManageListingTitle.Text;
         }
 
@@ -84,14 +84,14 @@ namespace MarsProject2.Pages
         //Find out Popup Message for Delete
         public string GetPopUpMsg()
         {
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(PopUpMessage));
+            driver.WaitForElementIsVisible(PopUpMessage);
             return PopUpMessage.Text;
         }
 
         //Get Manage Listings Url
         public string GetManageListingsUrl()
         {
-            driver.WaitForUrl(WebDriverExtension.UrlToBe(expectedManageListingsUrl));
+            driver.WaitForUrl(expectedManageListingsUrl);
             return (GlobalDefinitions.driver.Url);
 
         }

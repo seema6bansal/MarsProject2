@@ -26,6 +26,7 @@ namespace MarsProject2.Test
         [Test, Order(2), Description("Add ShareSkill data and validate it on the ManageListings Page")]
         public void AddShareSkillData()
         {
+            //Populate ShareSkill Excel data in Collection
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "ShareSkill");
             ShareSkillDetails addSkillObj = new ShareSkillDetails();
 
@@ -46,11 +47,7 @@ namespace MarsProject2.Test
             addSkillObj.Active = GlobalDefinitions.ExcelLib.ReadData(2, "Active");
 
             ShareSkill shareSkillObj = new ShareSkill();
-            shareSkillObj.AddShareSkillDetails(addSkillObj.Title, addSkillObj.Description, addSkillObj.Category, addSkillObj.SubCategory,
-                                               addSkillObj.Tags, addSkillObj.ServiceType, addSkillObj.LocationType, addSkillObj.StartDate,
-                                               addSkillObj.EndDate, addSkillObj.SelectDay, addSkillObj.StartTime, addSkillObj.EndTime,
-                                               addSkillObj.SkillTrade, addSkillObj.SkillExchange, addSkillObj.Active);
-
+            shareSkillObj.AddShareSkillDetails(addSkillObj);
             //Assert.AreEqual("Service Listing Added sucessfully", shareskillObj.GetPopUp());                ;
             ManageListings manageListingsObj = new ManageListings();
             Assert.AreEqual(addSkillObj.Title, manageListingsObj.GetTitle());

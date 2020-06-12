@@ -13,39 +13,31 @@ namespace MarsProject2.Extension
         private static WebDriverWait wait;
 
 
-        //Func delegate to check if element is visible by passing WebElement                     
-        public static Func<IWebDriver, bool> ElementIsVisible(IWebElement element)
-        {
-            return (driver) =>
-            {
-                try
-                {
-                    return element.Displayed;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            };
-
-        }
-
-        //Explicit wait for element by using Func delegate       
-        public static bool WaitForElementIsVisible(this IWebDriver driver, Func<IWebDriver, bool> ElementIsVisible, int timeOutinSeconds = 20)
+        //Explicit wait for element by passing "IWebElement"    
+        public static bool WaitForElementIsVisible(this IWebDriver driver, IWebElement element, int timeOutinSeconds = 20)
         {
             try
             {
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-                return wait.Until(ElementIsVisible);
+                return wait.Until<bool>(d =>
+                {
+                    try
+                    {
+                        return element.Displayed;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                });
             }
             catch (Exception e)
             {
                 throw;
             }
-
         }
 
-        //Explicit Wait for Element 
+        //Explicit Wait for Element by passing "By"
         public static IWebElement WaitForElement(this IWebDriver driver, By by, int timeOutinSeconds = 25)
         {
             try
@@ -59,7 +51,8 @@ namespace MarsProject2.Extension
             }
         }
 
-        //Explicit Wait for List of Elements
+        
+        //Explicit Wait for List of Elements 
         public static IList<IWebElement> WaitForListOfElements(this IWebDriver driver, By by, int timeOutinSeconds = 30)
         {
             try
@@ -74,30 +67,23 @@ namespace MarsProject2.Extension
             }
         }
 
-
-        //Func delegate to check the Url                    
-        public static Func<IWebDriver, bool> UrlToBe(string url)
-        {
-            return (driver) =>
-            {
-                try
-                {
-                    return driver.Url.ToLowerInvariant().Equals(url.ToLowerInvariant());
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            };
-        }
-
-        //Explicit wait for Url by using Func delegate       
-        public static bool WaitForUrl(this IWebDriver driver, Func<IWebDriver, bool> UrlToBe, int timeOutinSeconds = 20)
+        //Explicit wait for Url      
+        public static bool WaitForUrl(this IWebDriver driver, string url, int timeOutinSeconds = 20)
         {
             try
             {
                 wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-                return wait.Until(UrlToBe);
+                return wait.Until<bool>(d =>
+                {
+                    try
+                    {
+                        return driver.Url.ToLowerInvariant().Equals(url.ToLowerInvariant());
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                });
             }
             catch (Exception e)
             {

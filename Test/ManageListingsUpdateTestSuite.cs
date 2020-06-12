@@ -26,7 +26,7 @@ namespace MarsProject2.Test
         [Test, Order(2), Description("Update Service Listings on the ManageListing page")]
         public void UpdateServiceListings()
         {
-            //Populate DeleteManageListings Excel data in Collection
+            //Populate UpdateManageListings Excel data in Collection
             GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "UpdateManageListings");
 
             if (GlobalDefinitions.ExcelLib.ReadData(2, "UpdateAction").Equals("Yes"))
@@ -53,12 +53,7 @@ namespace MarsProject2.Test
                 updateSkillObj.Active = GlobalDefinitions.ExcelLib.ReadData(2, "Active");
 
                 ShareSkill shareSkillObj = new ShareSkill();
-
-                shareSkillObj.AddShareSkillDetails(updateSkillObj.Title, updateSkillObj.Description, updateSkillObj.Category, updateSkillObj.SubCategory,
-                                                   updateSkillObj.Tags, updateSkillObj.ServiceType, updateSkillObj.LocationType, updateSkillObj.StartDate,
-                                                   updateSkillObj.EndDate, updateSkillObj.SelectDay, updateSkillObj.StartTime, updateSkillObj.EndTime,
-                                                   updateSkillObj.SkillTrade, updateSkillObj.SkillExchange, updateSkillObj.Active);
-
+                shareSkillObj.AddShareSkillDetails(updateSkillObj);
                 Assert.AreEqual(updateSkillObj.Title, manageListingsObj.GetTitle());
             }
 

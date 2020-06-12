@@ -10,6 +10,7 @@ using AutoItX3Lib;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
 using MarsProject2.Extension;
+using MarsProject2.TestData;
 
 namespace MarsProject2.Pages
 {
@@ -169,57 +170,55 @@ namespace MarsProject2.Pages
         }
 
 
-        public void AddShareSkillDetails(string title, string description, string category, string subCategory, string tags,
-                                         string serviceType, string locationType, string startDate, string endDate, string selectDay, 
-                                         string startTime,string endTime, string skillTrade, string skillExchange, string active)
+        public void AddShareSkillDetails(ShareSkillDetails skillObj)
         {
             //Enter Title data from Excel
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(TitleTextBox));
-            TitleTextBox.SendKeys(title);
+            driver.WaitForElementIsVisible(TitleTextBox);
+            TitleTextBox.SendKeys(skillObj.Title);
 
             //Enter Description data from Excel
-            DescriptionTextBox.SendKeys(description);
+            DescriptionTextBox.SendKeys(skillObj.Description);
 
             //Select Category based on Excel data
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(CategoryDropDown));
+            driver.WaitForElementIsVisible(CategoryDropDown);
             SelectElement categorySelect = new SelectElement(CategoryDropDown);
-            categorySelect.SelectByText(category);
+            categorySelect.SelectByText(skillObj.Category);
 
             //Select Subcategory based on Excel data
             SelectElement subCategorySelect = new SelectElement(SubCategoryDropDown);
-            subCategorySelect.SelectByText(subCategory);
+            subCategorySelect.SelectByText(skillObj.SubCategory);
 
             //Enter Text in Tag and perform keyboard action "Enter"
-            TagTextBox.SendKeys(tags + Keys.Enter);
+            TagTextBox.SendKeys(skillObj.Tags + Keys.Enter);
 
             //Select Service Type based on Excel data
-            SelectRadioButton(ServiceType, ServiceTypeLabel, serviceType);
+            SelectRadioButton(ServiceType, ServiceTypeLabel, skillObj.ServiceType);
 
             //Select Location Type based on Excel data
-            SelectRadioButton(LocationType, LocationTypeLabel, locationType);
+            SelectRadioButton(LocationType, LocationTypeLabel, skillObj.LocationType);
 
             //Enter Startdate based on Excel data
-            StartDate.SendKeys(startDate);
+            StartDate.SendKeys(skillObj.StartDate);
 
             //Enter Enddate based on Excel data
-            EndDate.SendKeys(endDate);
+            EndDate.SendKeys(skillObj.EndDate);
 
             //Select days based on excel data and enter start and end time
-            SelectAvailableDays(selectDay, startTime, endTime);
+            SelectAvailableDays(skillObj.SelectDay, skillObj.StartTime, skillObj.EndTime);
 
             //Select SkillTrade based on Excel data
-            SelectRadioButton(SkillTrade, SkillTradeLabel, skillTrade);
+            SelectRadioButton(SkillTrade, SkillTradeLabel, skillObj.SkillTrade);
 
             //Enter Text in Tag and perform keyboard action "Enter"
-            SkillExchange.SendKeys(skillExchange + Keys.Enter);
+            SkillExchange.SendKeys(skillObj.SkillExchange + Keys.Enter);
 
             //Click WorkSample and upload the file through AutoIT
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(WorkSamples));
+            driver.WaitForElementIsVisible(WorkSamples);
             WorkSamples.Click();
             UploadFileByAutoIT();
 
             //Select Active/Hidden based on Excel data
-            SelectRadioButton(Active, ActiveLabel, active);
+            SelectRadioButton(Active, ActiveLabel, skillObj.Active);
 
             //Save ShareSkill data
             SaveButton.Click();
@@ -228,7 +227,7 @@ namespace MarsProject2.Pages
         //Get ShareSkill Url
         public string GetShareSkillUrl()
         {
-            driver.WaitForUrl(WebDriverExtension.UrlToBe(expectedShareSkillUrl));
+            driver.WaitForUrl(expectedShareSkillUrl);
             return (GlobalDefinitions.driver.Url);
 
         }

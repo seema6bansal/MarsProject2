@@ -34,14 +34,14 @@ namespace MarsProject2.Pages
         //Click on ShareSkill tab to navigate to the ShareSkill page
         public void ClickOnShareSkill()
         {
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ShareSkillLink));
+            driver.WaitForElementIsVisible(ShareSkillLink);
             ShareSkillLink.Click();
         }
 
         //Click on ManageListings tab to navigate to the ManageListings page
         public void ClickOnManageListings()
         {
-            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ManageListingsLink));
+            driver.WaitForElementIsVisible(ManageListingsLink);
             ManageListingsLink.Click();
         }
 
