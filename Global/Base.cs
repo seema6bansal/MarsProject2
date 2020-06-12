@@ -20,8 +20,6 @@ namespace MarsProject2.Global
         public static string excelPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\TestData\\TestData.xlsx");
         public static string uploadFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\TestData\\TestWorkSample.txt");
         public static string reportsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\TestReports\\");
-        public static string expectedShareSkillUrl = "http://192.168.99.100:5000/Home/ServiceListing";
-        public static string expectedManageListingsUrl = "http://192.168.99.100:5000/Home/ListingManagement";
         public static ExtentTest test;
         public static ExtentReports extent;
 
@@ -47,13 +45,13 @@ namespace MarsProject2.Global
             //Define driver
             GlobalDefinitions.driver = new ChromeDriver();
             GlobalDefinitions.driver.Manage().Window.Maximize();
-            
+
             //Get Base Url from Excel
             GlobalDefinitions.driver.Navigate().GoToUrl(GlobalDefinitions.ExcelLib.ReadData(2, "Url"));
 
             //Login to the application
             SignIn loginObj = new SignIn();
-            loginObj.LoginStep();
+            loginObj.LoginStep(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"), GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
 
         }
 

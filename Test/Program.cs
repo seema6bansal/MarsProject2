@@ -1,6 +1,4 @@
-﻿using MarsProject2.Global;
-using MarsProject2.Pages;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
@@ -18,85 +16,5 @@ namespace MarsProject2
         }
 
     }
-
-    [TestFixture, Description("Collection of tests for Add ShareSkill")]
-    class ShareSkillAddTestSuite : Base
-    {
-        [Test, Order(1), Description("Navigate to ShareSkill page")]
-        public void NavigateToShareSkill()
-        {
-            Profile profileObj = new Profile();
-            profileObj.ClickOnShareSkill();
-            ShareSkill shareSkillObj = new ShareSkill();
-            Assert.AreEqual(Base.expectedShareSkillUrl, shareSkillObj.GetShareSkillUrl());
-
-        }
-
-        [Test, Order(2), Description("Add ShareSkill data and validate it on the ManageListings Page")]
-        public void AddShareSkillData()
-        {
-            ShareSkill shareSkillObj = new ShareSkill();
-            shareSkillObj.PopulateShareSkillAddData();
-            shareSkillObj.AddShareSkillDetails();
-            //Assert.AreEqual("Service Listing Added sucessfully", shareskillObj.GetPopUp());                ;
-            ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(shareSkillObj.GetExcelTitle(), manageListingsObj.GetTitle());
-
-        }
-
-    }
-
-    [TestFixture, Description("Collection of tests for update Service Listings")]
-    class ManageListingsUpdateTestSuite : Base
-    {
-        [Test, Order(1), Description("Navigate to ManageListings page")]
-        public void NavigateToManageListings()
-        {
-            Profile profileObj = new Profile();
-            profileObj.ClickOnManageListings();
-            ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.GetManageListingsUrl());
-
-        }
-
-        [Test, Order(2), Description("Update Service Listings on the ManageListing page")]
-        public void UpdateServiceListings()
-        {
-            ManageListings manageListingsObj = new ManageListings();
-            manageListingsObj.UpdateServiceListings();
-
-            ShareSkill shareSkillObj = new ShareSkill();
-            shareSkillObj.PopulateShareSkillUpdateData();
-            shareSkillObj.AddShareSkillDetails();
-
-            Assert.AreEqual(shareSkillObj.GetExcelTitle(), manageListingsObj.GetTitle());
-
-        }
-
-    }
-
-    [TestFixture, Description("Collection of tests for Delete Service Listings")]
-    class ManageListingsDeleteTestSuite : Base
-    {
-        [Test, Order(1), Description("Navigate to ManageListings page")]
-        public void NavigateToManageListings()
-        {
-            Profile profileObj = new Profile();
-            profileObj.ClickOnManageListings();
-            ManageListings manageListingsObj = new ManageListings();
-            Assert.AreEqual(Base.expectedManageListingsUrl, manageListingsObj.GetManageListingsUrl());
-
-        }
-
-        [Test, Order(2), Description("Delete Service Listings on the ManageListing page")]
-        public void DeleteServiceListings()
-        {
-            ManageListings manageListingsObj = new ManageListings();
-            manageListingsObj.DeleteServiceListings();
-            Assert.AreEqual((manageListingsObj.deleteTitleMsg + " has been deleted"), manageListingsObj.GetPopUpMsg());
-
-        }
-    }
-
-
+    
 }

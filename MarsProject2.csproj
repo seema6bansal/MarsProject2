@@ -102,6 +102,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\WebDriverExtension.cs" />
     <Compile Include="Global\Base.cs" />
     <Compile Include="Global\GlobalDefinitions.cs" />
     <Compile Include="Pages\ManageListings.cs" />
@@ -113,8 +114,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Model\ShareSkillDetails.cs" />
+    <Compile Include="Test\ManageListingsDeleteTestSuite.cs" />
+    <Compile Include="Test\ManageListingsUpdateTestSuite.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\ShareSkillAddTestSuite.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

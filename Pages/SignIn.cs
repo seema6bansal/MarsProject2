@@ -37,11 +37,11 @@ namespace MarsProject2.Pages
 
 
         //Login to SkillSwap Website
-        public void LoginStep()
+        public void LoginStep(string userName, string password)
         {
             SignInButton.Click();
-            EmailTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"));
-            PasswordTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
+            EmailTextBox.SendKeys(userName);
+            PasswordTextBox.SendKeys(password);
             LoginButton.Click();
 
         }

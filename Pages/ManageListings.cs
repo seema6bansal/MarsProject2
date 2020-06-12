@@ -1,4 +1,5 @@
 ﻿using MarsProject2.Global;
+using MarsProject2.Extension;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
@@ -8,16 +9,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
+
 
 namespace MarsProject2.Pages
 {
     class ManageListings
     {
+        public static string expectedManageListingsUrl = "http://192.168.99.100:5000/Home/ListingManagement";
+        private readonly IWebDriver driver;
+
         public ManageListings()
         {
             PageFactory.InitElements(GlobalDefinitions.driver, this);
+            this.driver = GlobalDefinitions.driver;
         }
+
 
         //Initialize WebElements by using Page Factory
 
@@ -29,66 +35,46 @@ namespace MarsProject2.Pages
         [FindsBy(How = How.XPath, Using = "//div[@class='ns-box-inner']")]
         private IWebElement PopUpMessage { get; set; }
 
-        public string deleteTitleMsg;
-
 
         //Get Title of the row on the ManageListing Page
         public string GetTitle()
         {
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ManageListingTitle), 15);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ManageListingTitle));
             return ManageListingTitle.Text;
         }
 
         //Update Service Listing on the Manage Listings Page
-        public void UpdateServiceListings()
+        public void UpdateServiceListings(string updateTitle)
         {
-            //Populate ShareSkill Excel data in Collection
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "UpdateManageListings");
+            IList<IWebElement> rows = driver.WaitForListOfElements((By.XPath("//table[@class='ui striped table']/tbody/tr")));
 
-            if (GlobalDefinitions.ExcelLib.ReadData(2, "UpdateAction").Equals("Yes"))
+            for (int rnum = 1; rnum <= rows.Count; rnum++)
             {
-                string UpdateTitle = GlobalDefinitions.ExcelLib.ReadData(2, "Title");
-                IList<IWebElement> rows = GlobalDefinitions.WaitForListOfElements(GlobalDefinitions.driver, (By.XPath("//table[@class='ui striped table']/tbody/tr")), 10);
-
-                for (int rnum = 1; rnum <= rows.Count; rnum++)
+                string titleValue = null;
+                titleValue = (driver.WaitForElement(By.XPath("//table/tbody/tr[" + rnum + "]/td[3]"))).Text;
+                if (titleValue == updateTitle)
                 {
-                    string titleValue = null;
-                    titleValue = (GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//table/tbody/tr[" + rnum + "]/td[3]")), 15)).Text;
-                    if (titleValue == UpdateTitle)
-                    {
-                        GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//table/tbody/tr[" + rnum + "]/td[8]/div/button[2]/i[@class='outline write icon']")), 15).Click();
-                        break;
-                    }
+                    driver.WaitForElement(By.XPath("//table/tbody/tr[" + rnum + "]/td[8]/div/button[2]/i[@class='outline write icon']")).Click();
+                    break;
                 }
-
             }
+
         }
 
         //Delete Service Listing on the Manage Listings Page
-        public void DeleteServiceListings()
+        public void DeleteServiceListings(string deleteTitle)
         {
-            //Populate ShareSkill Excel data in Collection
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "DeleteManageListings");
-
-            if (GlobalDefinitions.ExcelLib.ReadData(2, "DeleteAction").Equals("Yes"))
+            IList<IWebElement> rows = driver.WaitForListOfElements(By.XPath("//table[@class='ui striped table']/tbody/tr"));
+            for (int rnum = 1; rnum <= rows.Count; rnum++)
             {
-                string deleteTitle = GlobalDefinitions.ExcelLib.ReadData(2, "Title");
-
-                deleteTitleMsg = deleteTitle;
-                IList<IWebElement> rows = GlobalDefinitions.WaitForListOfElements(GlobalDefinitions.driver, (By.XPath("//table[@class='ui striped table']/tbody/tr")), 10);
-
-                for (int rnum = 1; rnum <= rows.Count; rnum++)
+                string titleValue = null;
+                titleValue = (driver.WaitForElement(By.XPath("//table/tbody/tr[" + rnum + "]/td[3]"))).Text;
+                if (titleValue == deleteTitle)
                 {
-                    string titleValue = null;
-                    titleValue = (GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//table/tbody/tr[" + rnum + "]/td[3]")), 15)).Text;
-                    if (titleValue == deleteTitle)
-                    {
-                        GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//table/tbody/tr[" + rnum + "]/td[8]/div/button[3]/i[@class='remove icon']")), 15).Click();
+                    driver.WaitForElement(By.XPath("//table/tbody/tr[" + rnum + "]/td[8]/div/button[3]/i[@class='remove icon']")).Click();
 
-                        GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, (By.XPath("//div[@class='actions']/button[2]/i[@class='checkmark icon']")), 15).Click();
-                        break;
-                    }
-
+                    driver.WaitForElement(By.XPath("//div[@class='actions']/button[2]/i[@class='checkmark icon']")).Click();
+                    break;
                 }
 
             }
@@ -98,14 +84,14 @@ namespace MarsProject2.Pages
         //Find out Popup Message for Delete
         public string GetPopUpMsg()
         {
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(PopUpMessage), 30);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(PopUpMessage));
             return PopUpMessage.Text;
         }
 
         //Get Manage Listings Url
         public string GetManageListingsUrl()
         {
-            GlobalDefinitions.WaitForUrl(GlobalDefinitions.driver, Base.expectedManageListingsUrl, 10);
+            driver.WaitForUrl(WebDriverExtension.UrlToBe(expectedManageListingsUrl));
             return (GlobalDefinitions.driver.Url);
 
         }

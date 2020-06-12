@@ -9,14 +9,19 @@ using System.Threading.Tasks;
 using AutoItX3Lib;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
+using MarsProject2.Extension;
 
 namespace MarsProject2.Pages
 {
     class ShareSkill
     {
+        public static string expectedShareSkillUrl = "http://192.168.99.100:5000/Home/ServiceListing";
+        private readonly IWebDriver driver;
+
         public ShareSkill()
         {
             PageFactory.InitElements(GlobalDefinitions.driver, this);
+            this.driver = GlobalDefinitions.driver;
 
         }
 
@@ -110,7 +115,7 @@ namespace MarsProject2.Pages
         [FindsBy(How = How.XPath, Using = "//input[@type='button' and @value='Save']")]
         private IWebElement SaveButton { get; set; }
 
-       
+
         //Select Radio button based on Excel Data
         public void SelectRadioButton(IList<IWebElement> radioButton, IList<IWebElement> radioButtonLabel, string excelData)
         {
@@ -128,21 +133,21 @@ namespace MarsProject2.Pages
         }
 
         //Select Available days and enter StartTime and EndTime based on Excel Data
-        public void SelectAvailableDays()
+        public void SelectAvailableDays(string selectDay, string startTime, string endTime)
         {
             int size = DaysCheckBox.Count;
             for (int i = 0; i < size; i++)
             {
                 string dayText = DaysLabel.ElementAt(i).Text;
-                if (GlobalDefinitions.ExcelLib.ReadData(2, "SelectDay").Equals(dayText))
+                if ((selectDay).Equals(dayText))
                 {
                     DaysCheckBox.ElementAt(i).Click();
-                    
-                    string startTimeData = GlobalDefinitions.ExcelLib.ReadData(2, "StartTime");
+
+                    string startTimeData = startTime;
                     DateTime dtStartTime = DateTime.Parse(startTimeData);
                     StartTime.ElementAt(i).SendKeys(dtStartTime.ToLongTimeString().ToString());
-                                       
-                    string endTimeData = GlobalDefinitions.ExcelLib.ReadData(2, "EndTime");
+
+                    string endTimeData = endTime;
                     DateTime dtEndTime = DateTime.Parse(endTimeData);
                     EndTime.ElementAt(i).SendKeys(dtEndTime.ToLongTimeString().ToString());
                     break;
@@ -163,82 +168,67 @@ namespace MarsProject2.Pages
             autoIt.Send("{ENTER}");
         }
 
-        public void PopulateShareSkillAddData()
-        {
-            //Populate ShareSkill Excel data in Collection
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "ShareSkill");
-        }
 
-        public void PopulateShareSkillUpdateData()
-        {
-            //Populate Update ManageListings Excel data in Collection
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "UpdateManageListings");
-        }
-
-        public void AddShareSkillDetails()
+        public void AddShareSkillDetails(string title, string description, string category, string subCategory, string tags,
+                                         string serviceType, string locationType, string startDate, string endDate, string selectDay, 
+                                         string startTime,string endTime, string skillTrade, string skillExchange, string active)
         {
             //Enter Title data from Excel
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(TitleTextBox), 20);
-            TitleTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(TitleTextBox));
+            TitleTextBox.SendKeys(title);
 
             //Enter Description data from Excel
-            DescriptionTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Description"));
+            DescriptionTextBox.SendKeys(description);
 
             //Select Category based on Excel data
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver,GlobalDefinitions.ElementIsVisible(CategoryDropDown),10);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(CategoryDropDown));
             SelectElement categorySelect = new SelectElement(CategoryDropDown);
-            categorySelect.SelectByText(GlobalDefinitions.ExcelLib.ReadData(2, "Category"));
+            categorySelect.SelectByText(category);
 
             //Select Subcategory based on Excel data
             SelectElement subCategorySelect = new SelectElement(SubCategoryDropDown);
-            subCategorySelect.SelectByText(GlobalDefinitions.ExcelLib.ReadData(2, "SubCategory"));
+            subCategorySelect.SelectByText(subCategory);
 
             //Enter Text in Tag and perform keyboard action "Enter"
-            TagTextBox.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Tags") + Keys.Enter);
+            TagTextBox.SendKeys(tags + Keys.Enter);
 
             //Select Service Type based on Excel data
-            SelectRadioButton(ServiceType, ServiceTypeLabel, GlobalDefinitions.ExcelLib.ReadData(2, "ServiceType"));
+            SelectRadioButton(ServiceType, ServiceTypeLabel, serviceType);
 
             //Select Location Type based on Excel data
-            SelectRadioButton(LocationType, LocationTypeLabel, GlobalDefinitions.ExcelLib.ReadData(2, "LocationType"));
+            SelectRadioButton(LocationType, LocationTypeLabel, locationType);
 
             //Enter Startdate based on Excel data
-            StartDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "StartDate"));
+            StartDate.SendKeys(startDate);
 
             //Enter Enddate based on Excel data
-            EndDate.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "EndDate"));
+            EndDate.SendKeys(endDate);
 
             //Select days based on excel data and enter start and end time
-            SelectAvailableDays();
+            SelectAvailableDays(selectDay, startTime, endTime);
 
             //Select SkillTrade based on Excel data
-            SelectRadioButton(SkillTrade, SkillTradeLabel, GlobalDefinitions.ExcelLib.ReadData(2, "SkillTrade"));
+            SelectRadioButton(SkillTrade, SkillTradeLabel, skillTrade);
 
             //Enter Text in Tag and perform keyboard action "Enter"
-            SkillExchange.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange") + Keys.Enter);
+            SkillExchange.SendKeys(skillExchange + Keys.Enter);
 
             //Click WorkSample and upload the file through AutoIT
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(WorkSamples), 10);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(WorkSamples));
             WorkSamples.Click();
             UploadFileByAutoIT();
 
             //Select Active/Hidden based on Excel data
-            SelectRadioButton(Active, ActiveLabel, GlobalDefinitions.ExcelLib.ReadData(2, "Active"));
+            SelectRadioButton(Active, ActiveLabel, active);
 
             //Save ShareSkill data
             SaveButton.Click();
         }
 
-        //Get Excel Title 
-        public string GetExcelTitle()
-        {
-            return (GlobalDefinitions.ExcelLib.ReadData(2, "Title"));
-        }
-
         //Get ShareSkill Url
         public string GetShareSkillUrl()
         {
-            GlobalDefinitions.WaitForUrl(GlobalDefinitions.driver, Base.expectedShareSkillUrl, 10);
+            driver.WaitForUrl(WebDriverExtension.UrlToBe(expectedShareSkillUrl));
             return (GlobalDefinitions.driver.Url);
 
         }

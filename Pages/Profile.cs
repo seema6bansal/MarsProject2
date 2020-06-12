@@ -1,20 +1,23 @@
 ﻿using MarsProject2.Global;
-using OpenQA.Selenium;
-using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
+using OpenQA.Selenium;
+using SeleniumExtras.PageObjects;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MarsProject2.Extension;
 
 namespace MarsProject2.Pages
 {
     class Profile
     {
+        private readonly IWebDriver driver;
         public Profile()
         {
             PageFactory.InitElements(GlobalDefinitions.driver, this);
+            this.driver = GlobalDefinitions.driver;
         }
 
         //Initialize WebElements by using Page Factory
@@ -31,14 +34,14 @@ namespace MarsProject2.Pages
         //Click on ShareSkill tab to navigate to the ShareSkill page
         public void ClickOnShareSkill()
         {
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ShareSkillLink), 15);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ShareSkillLink));
             ShareSkillLink.Click();
         }
 
         //Click on ManageListings tab to navigate to the ManageListings page
         public void ClickOnManageListings()
         {
-            GlobalDefinitions.WaitForElementIsVisible(GlobalDefinitions.driver, GlobalDefinitions.ElementIsVisible(ManageListingsLink), 15);
+            driver.WaitForElementIsVisible(WebDriverExtension.ElementIsVisible(ManageListingsLink));
             ManageListingsLink.Click();
         }
 

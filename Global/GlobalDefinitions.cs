@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
+
 
 namespace MarsProject2.Global
 {
@@ -17,57 +17,6 @@ namespace MarsProject2.Global
     {
         //Initialize the browser
         public static IWebDriver driver { get; set; }
-
-        public static WebDriverWait wait;
-
-        //Func delegate to check if element is visible by passing WebElement                     
-        public static Func<IWebDriver, bool> ElementIsVisible(IWebElement element)
-        {
-            return (driver) =>
-            {
-                try
-                {
-                    return element.Displayed;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-            };
-
-        }
-        //Explicit wait for element by using Func delegate       
-        public static bool WaitForElementIsVisible(IWebDriver driver, Func<IWebDriver, bool> ElementIsVisible, int timeOutinSeconds)
-        {
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-            return wait.Until(ElementIsVisible);
-
-        }
-
-        //Explicit Wait for Element
-        public static IWebElement WaitForElement(IWebDriver driver, By by, int timeOutinSeconds)
-        {
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(by));
-            return element;
-
-        }
-        //Explicit Wait for List of Elements
-        public static IList<IWebElement> WaitForListOfElements(IWebDriver driver, By by, int timeOutinSeconds)
-        {
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-            IList<IWebElement> listOfElements = wait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
-            return listOfElements;
-
-        }
-
-        //Explicit Wait for Url
-        public static void WaitForUrl(IWebDriver driver, string url, int timeOutinSeconds)
-        {
-            wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
-            wait.Until(ExpectedConditions.UrlToBe(url));
-
-        }
 
 
         //Excel
