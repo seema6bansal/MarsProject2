@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace MarsProject2.Global
+namespace MarsProject3.Global
 {
     class GlobalDefinitions
     {

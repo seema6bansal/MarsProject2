@@ -1,6 +1,7 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
-using MarsProject2.Pages;
+using MarsProject3.Model;
+using MarsProject3.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -13,7 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarsProject2.Global
+namespace MarsProject3.Global
 {
     class Base
     {
@@ -22,6 +23,7 @@ namespace MarsProject2.Global
         public static string reportsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "..\\..\\TestReports\\");
         public static ExtentTest test;
         public static ExtentReports extent;
+        private string isLogin = "true";
 
         public void InitializeReport()
         {
@@ -39,20 +41,40 @@ namespace MarsProject2.Global
             //Initialize the Extent Report
             InitializeReport();
 
-            //Populate SignIn Excel data in Collection
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "SignIn");
-
             //Define driver
             GlobalDefinitions.driver = new ChromeDriver();
             GlobalDefinitions.driver.Manage().Window.Maximize();
 
-            //Get Base Url from Excel
-            GlobalDefinitions.driver.Navigate().GoToUrl(GlobalDefinitions.ExcelLib.ReadData(2, "Url"));
-
             //Login to the application
-            SignIn loginObj = new SignIn();
-            loginObj.LoginStep(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"), GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
+            if (isLogin == "true")
+            { 
+                //Populate SignIn Excel data in Collection
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "SignIn");
 
+                //Get Base Url from Excel
+                GlobalDefinitions.driver.Navigate().GoToUrl(GlobalDefinitions.ExcelLib.ReadData(2, "Url"));
+
+                SignIn loginObj = new SignIn();
+                loginObj.LoginStep(GlobalDefinitions.ExcelLib.ReadData(2, "UserName"), GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
+            }
+            else
+            {
+                //Populate SignUp Excel data in Collection
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "SignUp");
+
+                //Get Base Url from Excel
+                GlobalDefinitions.driver.Navigate().GoToUrl(GlobalDefinitions.ExcelLib.ReadData(2, "Url"));
+
+                SignUpDetails signUpDetailsObj = new SignUpDetails();
+                signUpDetailsObj.FirstName = GlobalDefinitions.ExcelLib.ReadData(2, "FirstName");
+                signUpDetailsObj.LastName = GlobalDefinitions.ExcelLib.ReadData(2, "LastName");
+                signUpDetailsObj.EmailAddress = GlobalDefinitions.ExcelLib.ReadData(2, "EmailAddress");
+                signUpDetailsObj.Password = GlobalDefinitions.ExcelLib.ReadData(2, "Password");
+                signUpDetailsObj.ConfirmPassword = GlobalDefinitions.ExcelLib.ReadData(2, "ConfirmPassword");
+
+                SignUp joinObj = new SignUp();
+                joinObj.JoinStep(signUpDetailsObj);
+            }
         }
 
         [SetUp]

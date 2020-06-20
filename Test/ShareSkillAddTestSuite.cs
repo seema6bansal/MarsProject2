@@ -1,6 +1,6 @@
-﻿using MarsProject2.Global;
-using MarsProject2.Pages;
-using MarsProject2.TestData;
+﻿using MarsProject3.Global;
+using MarsProject3.Pages;
+using MarsProject3.TestData;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsProject2.Test
+namespace MarsProject3.Test
 {
     [TestFixture, Description("Collection of tests for Add ShareSkill")]
     class ShareSkillAddTestSuite : Base

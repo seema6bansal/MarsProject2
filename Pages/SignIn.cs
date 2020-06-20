@@ -1,4 +1,4 @@
-﻿using MarsProject2.Global;
+﻿using MarsProject3.Global;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using SeleniumExtras.PageObjects;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsProject2.Pages
+namespace MarsProject3.Pages
 {
     class SignIn
     {

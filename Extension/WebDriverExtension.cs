@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsProject2.Extension
+namespace MarsProject3.Extension
 {
     public static class WebDriverExtension
     {

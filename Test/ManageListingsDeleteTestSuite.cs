@@ -1,5 +1,5 @@
-﻿using MarsProject2.Global;
-using MarsProject2.Pages;
+﻿using MarsProject3.Global;
+using MarsProject3.Pages;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsProject2.Test
+namespace MarsProject3.Test
 {
     [TestFixture, Description("Collection of tests for Delete Service Listings")]
     class ManageListingsDeleteTestSuite : Base

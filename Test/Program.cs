@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarsProject2
+namespace MarsProject3
 {
     class Program
     {

@@ -1,4 +1,4 @@
-﻿using MarsProject2.Global;
+﻿using MarsProject3.Global;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 using System;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using AutoItX3Lib;
 using OpenQA.Selenium.Support.UI;
 using System.Threading;
-using MarsProject2.Extension;
-using MarsProject2.TestData;
+using MarsProject3.Extension;
+using MarsProject3.TestData;
 
-namespace MarsProject2.Pages
+namespace MarsProject3.Pages
 {
     class ShareSkill
     {

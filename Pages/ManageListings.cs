@@ -1,5 +1,5 @@
-﻿using MarsProject2.Global;
-using MarsProject2.Extension;
+﻿using MarsProject3.Global;
+using MarsProject3.Extension;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 
-namespace MarsProject2.Pages
+namespace MarsProject3.Pages
 {
     class ManageListings
     {
