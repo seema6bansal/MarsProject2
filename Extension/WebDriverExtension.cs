@@ -53,7 +53,7 @@ namespace MarsProject3.Extension
 
         
         //Explicit Wait for List of Elements 
-        public static IList<IWebElement> WaitForListOfElements(this IWebDriver driver, By by, int timeOutinSeconds = 30)
+        public static IList<IWebElement> WaitForListOfElements(this IWebDriver driver, By by, int timeOutinSeconds = 40)
         {
             try
             {
@@ -92,6 +92,43 @@ namespace MarsProject3.Extension
 
         }
 
+        //Func delegate to check visibility of all the elements              
+        public static Func<IWebDriver, IList<IWebElement>> VisibilityOfAllElements(By by)
+        {
+            return (driver) =>
+            {
+                try
+                {
+                    var elements = driver.FindElements(by);
+                    if (elements.Any(element => !element.Displayed))
+                    {
+                        return null;
+                    }
+
+                    return elements.Any() ? elements : null;
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+            };
+
+        }
+
+        //Explicit Wait for Visibility of all the elements by using Func delegate
+        public static IList<IWebElement> WaitForVisibilityOfAllElements(this IWebDriver driver, By by, int timeOutinSeconds = 60)
+        {
+            try
+            {
+                wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeOutinSeconds));
+                return wait.Until(VisibilityOfAllElements(by));
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
 
 
     }

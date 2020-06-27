@@ -1,4 +1,5 @@
-﻿using MarsProject3.Global;
+﻿using MarsProject3.Extension;
+using MarsProject3.Global;
 using MarsProject3.Model;
 using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
@@ -12,9 +13,11 @@ namespace MarsProject3.Pages
 {
     class SignUp
     {
+        private readonly IWebDriver driver;
         public SignUp()
         {
             PageFactory.InitElements(GlobalDefinitions.driver, this);
+            this.driver = GlobalDefinitions.driver;
         }
 
         //Initialize WebElements by using Page Factory
@@ -51,6 +54,11 @@ namespace MarsProject3.Pages
         [FindsBy(How = How.XPath, Using = "//div[@id='submit-btn']")]
         private IWebElement JoinButton { get; set; }
 
+        //Find the PopUp
+        [FindsBy(How = How.XPath, Using = "//div[@class='ns-box-inner']")]
+        private IWebElement PopUpMessage { get; set; }
+
+
         //Register to SkillSwap Website
         public void JoinStep(SignUpDetails signUpObj)
         {
@@ -77,7 +85,14 @@ namespace MarsProject3.Pages
 
             //Click on Join button
             JoinButton.Click();
-            
+
+        }
+
+        //Find out Popup Message for Successful Registration
+        public string GetPopUpMsg()
+        {
+            driver.WaitForElementIsVisible(PopUpMessage);
+            return PopUpMessage.Text;
         }
     }
 }

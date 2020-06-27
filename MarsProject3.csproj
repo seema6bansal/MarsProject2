@@ -110,7 +110,9 @@
     <Compile Include="Extension\WebDriverExtension.cs" />
     <Compile Include="Global\Base.cs" />
     <Compile Include="Global\GlobalDefinitions.cs" />
+    <Compile Include="Model\EducationDetails.cs" />
     <Compile Include="Model\SignUpDetails.cs" />
+    <Compile Include="Pages\HomeSearch.cs" />
     <Compile Include="Pages\SignUp.cs" />
     <Compile Include="Pages\ManageListings.cs" />
     <Compile Include="Pages\Profile.cs" />
@@ -124,8 +126,14 @@
     <Compile Include="Model\ShareSkillDetails.cs" />
     <Compile Include="Test\ManageListingsDeleteTestSuite.cs" />
     <Compile Include="Test\ManageListingsUpdateTestSuite.cs" />
+    <Compile Include="Test\ProfileChangePasswordTest.cs" />
+    <Compile Include="Test\ProfileDeleteTestSuite.cs" />
+    <Compile Include="Test\ProfileAddTestSuite.cs" />
+    <Compile Include="Test\ProfileDetailsTestSuite.cs" />
+    <Compile Include="Test\ProfileUpdateTestsuite.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\SearchSkillsTestSuite.cs" />
     <Compile Include="Test\ShareSkillAddTestSuite.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,8 @@ namespace MarsProject3.Global
         public static ExtentReports extent;
         private string isLogin = "true";
 
+
+
         public void InitializeReport()
         {
             var htmlReporter = new ExtentHtmlReporter(Base.reportsPath);
@@ -45,9 +47,9 @@ namespace MarsProject3.Global
             GlobalDefinitions.driver = new ChromeDriver();
             GlobalDefinitions.driver.Manage().Window.Maximize();
 
-            //Login to the application
+            //Login to the application if user is already registered
             if (isLogin == "true")
-            { 
+            {
                 //Populate SignIn Excel data in Collection
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "SignIn");
 
@@ -59,6 +61,7 @@ namespace MarsProject3.Global
             }
             else
             {
+                //Register to the application if user is not registered
                 //Populate SignUp Excel data in Collection
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.excelPath, "SignUp");
 
@@ -74,6 +77,10 @@ namespace MarsProject3.Global
 
                 SignUp joinObj = new SignUp();
                 joinObj.JoinStep(signUpDetailsObj);
+                Assert.AreEqual("Registration successful", joinObj.GetPopUpMsg());
+                SignIn loginObj = new SignIn();
+                loginObj.LoginStep(GlobalDefinitions.ExcelLib.ReadData(2, "EmailAddress"), GlobalDefinitions.ExcelLib.ReadData(2, "Password"));
+
             }
         }
 
